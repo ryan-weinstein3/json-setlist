@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Cover Band Setlist</title>
+    <script
+    src="https://code.jquery.com/jquery-3.5.1.js"
+    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous">
+    </script>
+</head>
+<body>
+<script>
+    $.get("~/Downloads/reggae.json", 
+          function( data ) {
+            str = JSON.stringify(data);
+            document.write(str);
+            strHTML= "";
+        /*data.forEach(function(animal) { 
+        strHTML += "<li>" 
+                + animal.name + " : " 
+                + animal.type + "</li>";
+            }) 
+    strHTML += "</ul>";
+    document.write (strHTML);  */
+    })
+</script>
+</body>
+</html>
