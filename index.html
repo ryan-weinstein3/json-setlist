@@ -1,6 +1,9 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <style>
+        body {text-align: center;}
+    </style>
     <title>Cover Band Setlist</title>
     <script
     src="//code.jquery.com/jquery-3.5.1.js"
@@ -9,20 +12,64 @@
     </script>
 </head>
 <body>
-<script>
-    $.get("https://ryan-weinstein3.github.io/json-setlist/reggae.json", 
-          function( data ) {
-            str = JSON.stringify(data);
-            document.write(str);
-            strHTML= "";
-        /*data.forEach(function(animal) { 
-        strHTML += "<li>" 
-                + animal.name + " : " 
-                + animal.type + "</li>";
-            }) 
-    strHTML += "</ul>";
-    document.write (strHTML);  */
-    })
-</script>
+    <script>
+        $.get("https://ryan-weinstein3.github.io/json-setlist/reggae.json", 
+                  function(data) {
+                        strHTML= "";
+                        data.forEach(function(song) {    
+                                strHTML += "<h2>" 
+                                + song.title + "</h2><h3>" 
+                                + 'Artist: ' + song.artist + '<br>'
+                                + 'Genre: ' + song.genre + '<br>'
+                                + 'Year: ' + song.year + "</h3>";
+                        })
+                        document.getElementById('content').innerHTML = strHTML;
+                        document.getElementById('raw').innerHTML = JSON.stringify(data);
+        })
+
+        function filter() {
+            var val = document.getElementById('select_genre').value;
+            $.get("https://ryan-weinstein3.github.io/json-setlist/reggae.json", 
+                  function(data) {
+                        strHTML= "";
+                        if (val == 'All Genres') {
+                            data.forEach(function(song) {    
+                                strHTML += "<h2>" 
+                                + song.title + "</h2><h3>" 
+                                + 'Artist: ' + song.artist + '<br>'
+                                + 'Genre: ' + song.genre + '<br>'
+                                + 'Year: ' + song.year + "</h3>";
+                            })
+                        }
+                        else {
+                            data.forEach(function(song) { 
+                                if (song.genre.indexOf(val) != -1) {    
+                                    strHTML += "<h2>" 
+                                    + song.title + "</h2><h3>" 
+                                    + 'Artist: ' + song.artist + '<br>'
+                                    + 'Genre: ' + song.genre + '<br>'
+                                    + 'Year: ' + song.year + "</h3>";
+                                }
+                            })
+                        }
+                        document.getElementById('content').innerHTML = strHTML;
+            })
+        }
+    </script>
+    <h1>Cover Band Setlist</h1>
+    <h2>Filter by Genre:</h2>
+    <form>
+        <select id='select_genre'>
+            <option>All Genres</option>
+            <option>Reggae</option>
+            <option>Dancehall</option>
+            <option>Rap</option>
+            <option>Hip-Hop</option>
+        </select>
+        <input type='button' value='Filter' onclick='filter()'>
+    </form>
+    <p id='content'></p>
+    <h2>Serialized JSON Data:</h2>
+    <p id='raw'></p>
 </body>
 </html>
